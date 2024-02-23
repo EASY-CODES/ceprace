@@ -1,2 +1,2 @@
 # ceprace
-🏁 A Corrida pelo CEP 🏁
+🏁 A Corrida pelo CEP (um estudo aplicado de flow) 🏁
