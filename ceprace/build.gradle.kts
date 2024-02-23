@@ -55,8 +55,8 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.engedu.company"
-            artifactId = "cepreace"
+            groupId = "com.github.eng-edu"
+            artifactId = "ceprace"
             version = "1.0"
 
             afterEvaluate {
