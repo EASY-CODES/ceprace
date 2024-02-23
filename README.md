@@ -5,16 +5,14 @@
 # CEP RACE [![JitPack](https://jitpack.io/v/EASY-CODES/ceprace.svg)](https://jitpack.io/#EASY-CODES/ceprace) 
 
 CepRace creates four flows that simultaneously call four different APIs (ViaCep, OpenCep, Postmon and Widnet) that look for addresses using the CEP. The first API that returns successfully presents the result and the rest of the flow is cancelled.
-
+I solved this problem using Flow's features, such as `flatMapMerge{}`, a Kotlin Flow operator that allows combining multiple flows into a single flow. I handled success cases using `filter` and performed mapping using `map{}` to transform into the desired output object. Finally, with `.first()`, I get the first successful response.
 ## Solving problem 
 
 ```gradle
 = flow {
     val combinedFlow = flowOf(viaCepFlow, openCepFlow, postmonFlow, widnetFlow)
         .flatMapMerge { it }.filter { it.success }.map { it.addressVO }
-
-    combinedFlow.collect {
-        emit(it)
+    combinedFlow.collect { emit(it) }
 }.first()
 ```
 ## Gradle
