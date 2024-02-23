@@ -4,7 +4,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.github.eng-edu"
+group = "com.github.EASY-CODES"
 
 android {
     namespace = "com.engedu.ceprace"
@@ -57,7 +57,7 @@ dependencies {
 publishing {
     publications {
         register<MavenPublication>("release") {
-            groupId = "com.github.eng-edu"
+            groupId = "com.github.EASY-CODES"
             artifactId = "ceprace"
             version = "1.0"
 
