@@ -1,4 +1,8 @@
-# CEP RACE [![JitPack](https://jitpack.io/v/EASY-CODES/ceprace.svg)](https://jitpack.io/#EASY-CODES/ceprace)
+<p align="center">
+<img src="https://github.com/EASY-CODES/ceprace/blob/main/app/src/main/res/drawable/ic_rance.png" width="5%"/>
+</p>
+
+# CEP RACE [![JitPack](https://jitpack.io/v/EASY-CODES/ceprace.svg)](https://jitpack.io/#EASY-CODES/ceprace) 
 
 CepRace creates four flows that simultaneously call four different APIs (ViaCep, OpenCep, Postmon and Widnet) that look for addresses using the CEP. The first API that returns successfully presents the result and the rest of the flow is cancelled.
 
