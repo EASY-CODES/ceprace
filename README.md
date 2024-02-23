@@ -1,43 +1,38 @@
-# 🏁 A Corrida pelo CEP (um estudo aplicado de flow) 🏁
+# CEP RACE [![JitPack](https://jitpack.io/v/EASY-CODES/ceprace.svg)](https://jitpack.io/#EASY-CODES/ceprace)
 
-Recentemente, tenho me aprofundado bastante em Coroutines e Flow do Kotlin. Inspirado por uma ideia que surgiu ao assistir a um dos vídeos do Filipe Deschamps de 2020, onde ele fala sobre sua biblioteca CEP Promise ([link](https://lnkd.in/dFFAmrKw)), decidi me desafiar e resolver o mesmo problema, mas desta vez em Kotlin Android usando Flow.
+CepRace creates four flows that simultaneously call four different APIs (ViaCep, OpenCep, Postmon and Widnet) that look for addresses using the CEP. The first API that returns successfully presents the result and the rest of the flow is cancelled.
 
-Basicamente, crio quatro fluxos que chamam simultaneamente quatro APIs diferentes (ViaCep, OpenCep, Postmon e Widnet), e a primeira que retornar com sucesso apresenta o resultado.
-
-Resolvi esse problema utilizando os recursos do Flow, como `flatMapMerge{}`, um operador do Kotlin Flow que permite combinar vários fluxos em um único fluxo. Tratei os casos de sucesso usando `filter` e realizei a mapeamento usando `map{}` para transformar no objeto de saída desejado. Por fim, com `.first()`, obtenho a primeira resposta bem-sucedida.
-
-# CepRace [![JitPack](https://jitpack.io/v/EASY-CODES/ceprace.svg)](https://jitpack.io/#EASY-CODES/ceprace)
-
-CepRace cria quatro fluxos que chamam simultaneamente quatro APIs (ViaCep, OpenCep, Postmon e Widnet) diferentes que buscam endereços através do CEP. A primeira API que retornar com sucesso apresenta o resultado e o restante do fluxo é cancelado.
-
-## Screenshots
-<p align="center">
-<img src="https://github.com/EASY-CODES/ceprace/blob/main/app/src/main/res/drawable/print.png" width="30%"/>
-</p>
-
-
-## Gradle
-
-Adicione o código abaixo ao arquivo `build.gradle` raiz do seu projeto (não ao arquivo `build.gradle` do módulo).
+## Solving problem 
 
 ```gradle
-allprojects {
-    repositories {
-        // Outros repositórios...
-        maven { url 'https://jitpack.io' }
-    }
+= flow {
+    val combinedFlow = flowOf(viaCepFlow, openCepFlow, postmonFlow, widnetFlow)
+        .flatMapMerge { it }.filter { it.success }.map { it.addressVO }
+
+    combinedFlow.collect {
+        emit(it)
+}.first()
+```
+## Gradle
+
+Add the code below to your project's root `settins.gradle` file
+
+```gradle
+repositories {
+//other codes
+ maven("https://jitpack.io")
 }
 ```
 
-And add a dependency code to your **module**'s `build.gradle` file.
-```gradle
+And add a dependency `gradle.gradle`
+```gradle 
 dependencies {
-        implementation("com.github.EASY-CODES:ceprace:v1.0.7")
+    implementation("com.github.EASY-CODES:ceprace:v1.0.7")
 }
 ```
 
 ## Basic Usage
-Add in you Activity file.
+Add in you **ViewModel** file.
 
 ```kotlin
 CoroutineScope(Dispatchers.IO).launch {
@@ -45,6 +40,11 @@ CoroutineScope(Dispatchers.IO).launch {
      Log.d("CEP_RACE", addressVO.toString())
 }
 ```
+
+## Screnshot example app use CepRace
+<p align="center">
+<img src="https://github.com/EASY-CODES/ceprace/blob/main/app/src/main/res/drawable/print.png" width="30%"/>
+</p>
 
 ## License
 ```
