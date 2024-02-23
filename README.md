@@ -12,7 +12,7 @@ CepRace cria quatro fluxos que chamam simultaneamente quatro APIs (ViaCep, OpenC
 
 ## Screenshots
 <p align="center">
-<img src="https://user-images.githubusercontent.com/26925002/162633413-8cc80819-5ff8-4258-b60e-5101d058c907.png" width="30%"/>
+<img src="https://github.com/EASY-CODES/ceprace/blob/main/app/src/main/res/drawable/print.png" width="30%"/>
 </p>
 
 
