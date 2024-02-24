@@ -6,14 +6,45 @@
 
 CepRace creates four flows that simultaneously call four different APIs (ViaCep, OpenCep, Postmon and Widnet) that look for addresses using the CEP. The first API that returns successfully presents the result and the rest of the flow is cancelled.
 I solved this problem using Flow's features, such as `flatMapMerge{}`, a Kotlin Flow operator that allows combining multiple flows into a single flow. I handled success cases using `filter` and performed mapping using `map{}` to transform into the desired output object. Finally, with `.first()`, I get the first successful response.
-## Solving problem 
+## Solving problem (Proof of Concept) 
 
-```gradle
-= flow {
-    val combinedFlow = flowOf(viaCepFlow, openCepFlow, postmonFlow, widnetFlow)
-        .flatMapMerge { it }.filter { it.success }.map { it.addressVO }
-    combinedFlow.collect { emit(it) }
+```kotlin
+fun main() {
+    runBlocking {
+        //returns "Result1"
+        println(mergeFlows())
+    }
+
+}
+
+suspend fun mergeFlows(): String = flow {
+    val job1 = flow { emit(asyncOperation1()) }
+    val job2 = flow { emit(asyncOperation2()) }
+    val job3 = flow { emit(asyncOperation3()) }
+
+    val combinedFlow = flowOf(job1, job2, job3)
+        .flatMapMerge { it }
+
+    combinedFlow.collect {
+        emit(it)
+    }
+
 }.first()
+
+suspend fun asyncOperation1(): String {
+    delay(1000)
+    return "Result 1"
+}
+
+suspend fun asyncOperation2(): String {
+    delay(1500)
+    return "Result 2"
+}
+
+suspend fun asyncOperation3(): String {
+    delay(2000)
+    return "Result 3"
+}
 ```
 ## Gradle
 
