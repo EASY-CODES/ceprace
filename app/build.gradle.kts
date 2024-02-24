@@ -67,5 +67,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    //debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
+
     implementation(project(":ceprace"))
 }
