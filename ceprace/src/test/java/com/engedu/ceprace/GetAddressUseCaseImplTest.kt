@@ -26,56 +26,29 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class GetAddressUseCaseImplTest {
 
+    //sut
+    private lateinit var useCaseImpl: GetAddressUseCaseImpl
+
+    //declare fake
+    private lateinit var addressRepositoryImplTest: AddressRepository
+
+    //define mocks
     private val viaCepApiService: ViaCepApiService = mockk()
     private val openCepApiService: OpenCepApiService = mockk()
     private val postmonApiService: PostmonApiService = mockk()
     private val widnetApiService: WidnetApiService = mockk()
-    private lateinit var addressRepositoryImplTest: AddressRepository
-    private lateinit var useCaseImpl: GetAddressUseCaseImpl
+
+    //define dummies
     private val viaCepDTO = ViaCepDTO("rua cd 18", "marilucy", "tucurui", "pa")
-
-    @Before
-    fun setup() {
-        //Arrange
-        coEvery { viaCepApiService.getAddress(any()) } coAnswers {
-            delay(1000L)
-            viaCepDTO
-        }
-
-        coEvery {
-            postmonApiService.getAddress(any())
-        } coAnswers {
-            delay(2000L)
-            mockk()
-        }
-
-        coEvery {
-            openCepApiService.getAddress(any())
-        } coAnswers {
-            delay(3000L)
-            mockk()
-        }
-
-        coEvery {
-            widnetApiService.getAddress(any())
-        } coAnswers {
-            delay(4000L)
-            mockk()
-        }
-
-        addressRepositoryImplTest = AddressRepositoryImpl(
-            viaCepApiService,
-            openCepApiService,
-            postmonApiService,
-            widnetApiService
-        )
-
-        useCaseImpl = GetAddressUseCaseImpl(addressRepositoryImplTest)
-    }
-
+    private val openCepDTO = OpenCepDTO("rua cd 18", "marilucy", "tucurui", "pa")
+    private val postmonDTO = PostmonDTO("rua cd 18", "marilucy", "tucurui", EstadoInfoDTO("pa"))
+    private val widnetDTO = WidnetDTO("rua cd 18", "marilucy", "tucurui", "pa")
 
     @Test
-    fun mytest1() = runTest {
+    fun executeUseCaseWinnerViaCepReturnViaVCepDTO() = runTest {
+        //Arrage
+        defineWinner(Winner.ViaCep())
+
         //Action
         val result = useCaseImpl.execute("123")
 
@@ -83,5 +56,175 @@ class GetAddressUseCaseImplTest {
         Assert.assertEquals(result, viaCepDTO.toVo())
     }
 
+    @Test
+    fun executeUseCaseWinnerOpenCepReturnOpenDTO() = runTest {
+        //Arrage
+        defineWinner(Winner.OpenCep())
+
+        //Action
+        val result = useCaseImpl.execute("123")
+
+        //Assert
+        Assert.assertEquals(result, openCepDTO.toVo())
+    }
+
+
+    @Test
+    fun executeUseCaseWinnerPostmomReturnPostmomDTO() = runTest {
+        //Arrage
+        defineWinner(Winner.Postmom())
+
+        //Action
+        val result = useCaseImpl.execute("123")
+
+        //Assert
+        Assert.assertEquals(result, postmonDTO.toVo())
+    }
+
+    @Test
+    fun executeUseCaseWinnerWidnetReturnWidentDTO() = runTest {
+        //Arrage
+        defineWinner(Winner.Widnet())
+
+        //Action
+        val result = useCaseImpl.execute("123")
+
+        //Assert
+        Assert.assertEquals(result, widnetDTO.toVo())
+    }
+
+
+
+    //define stubs
+    private fun defineWinner(winner: Winner) {
+        when (winner) {
+            is Winner.ViaCep -> {
+                coEvery { viaCepApiService.getAddress(any()) } coAnswers {
+                    delay(1000L)
+                    viaCepDTO
+                }
+
+                coEvery {
+                    postmonApiService.getAddress(any())
+                } coAnswers {
+                    delay(2000L)
+                    postmonDTO
+                }
+
+                coEvery {
+                    openCepApiService.getAddress(any())
+                } coAnswers {
+                    delay(3000L)
+                    openCepDTO
+                }
+
+                coEvery {
+                    widnetApiService.getAddress(any())
+                } coAnswers {
+                    delay(4000L)
+                    widnetDTO
+                }
+            }
+
+            is Winner.OpenCep -> {
+                coEvery { viaCepApiService.getAddress(any()) } coAnswers {
+                    delay(3000L)
+                    viaCepDTO
+                }
+
+                coEvery {
+                    postmonApiService.getAddress(any())
+                } coAnswers {
+                    delay(2000L)
+                    postmonDTO
+                }
+
+                coEvery {
+                    openCepApiService.getAddress(any())
+                } coAnswers {
+                    delay(1000L)
+                    openCepDTO
+                }
+
+                coEvery {
+                    widnetApiService.getAddress(any())
+                } coAnswers {
+                    delay(4000L)
+                    widnetDTO
+                }
+            }
+
+            is Winner.Postmom -> {
+                coEvery { viaCepApiService.getAddress(any()) } coAnswers {
+                    delay(2000L)
+                    viaCepDTO
+                }
+
+                coEvery {
+                    postmonApiService.getAddress(any())
+                } coAnswers {
+                    delay(1000L)
+                    postmonDTO
+                }
+
+                coEvery {
+                    openCepApiService.getAddress(any())
+                } coAnswers {
+                    delay(3000L)
+                    openCepDTO
+                }
+
+                coEvery {
+                    widnetApiService.getAddress(any())
+                } coAnswers {
+                    delay(4000L)
+                    widnetDTO
+                }
+            }
+
+            is Winner.Widnet -> {
+                coEvery { viaCepApiService.getAddress(any()) } coAnswers {
+                    delay(4000L)
+                    viaCepDTO
+                }
+
+                coEvery {
+                    postmonApiService.getAddress(any())
+                } coAnswers {
+                    delay(2000L)
+                    postmonDTO
+                }
+
+                coEvery {
+                    openCepApiService.getAddress(any())
+                } coAnswers {
+                    delay(3000L)
+                    openCepDTO
+                }
+
+                coEvery {
+                    widnetApiService.getAddress(any())
+                } coAnswers {
+                    delay(1000L)
+                    widnetDTO
+                }
+            }
+        }
+
+
+        addressRepositoryImplTest = AddressRepositoryImpl(
+            viaCepApiService, openCepApiService, postmonApiService, widnetApiService
+        )
+
+        useCaseImpl = GetAddressUseCaseImpl(addressRepositoryImplTest)
+    }
+
+    private sealed class Winner {
+        class ViaCep : Winner()
+        class OpenCep : Winner()
+        class Postmom : Winner()
+        class Widnet : Winner()
+
+    }
 
 }
