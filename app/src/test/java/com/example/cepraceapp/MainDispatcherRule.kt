@@ -1,4 +1,4 @@
-package com
+package com.example.cepraceapp
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.TestDispatcher

@@ -1,8 +1,7 @@
-package com
+package com.example.cepraceapp
 
 import com.engedu.ceprace.domain.model.AddressVO
 import com.engedu.ceprace.initializer.CepRaceInitImpl
-import com.example.cepraceapp.MainViewModel
 import com.example.cepraceapp.util.ViewState
 import io.mockk.coEvery
 import io.mockk.mockk
