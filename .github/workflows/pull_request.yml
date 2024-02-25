@@ -17,9 +17,6 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Grant execute permissions to gradlew
-        run: chmod +x gradlew
-
       - name: Run lint
         run: ./gradlew lint
 
