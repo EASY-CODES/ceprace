@@ -7,7 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  unit-test:
+  lint:
+    name: Run lint
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK 17
@@ -16,12 +17,29 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
       - name: Grant execute permissions to gradlew
         run: chmod +x gradlew
 
+      - name: Run lint
+        run: ./gradlew lint
+
+      - name: Upload test report app
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint_report_app
+          path: app/build/reports/tests/
+
+      - name: Upload test report module
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint_report_module
+          path: ceprace/build/reports/tests/
+
+  unit-test:
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    steps:
       - name: Run tests
         run: ./gradlew test
 
