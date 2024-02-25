@@ -8,6 +8,7 @@ on:
 
 jobs:
   lint:
+    name: RunLint
     runs-on: ubuntu-latest
       - name: Run lint
         run: ./gradlew lint
@@ -25,6 +26,7 @@ jobs:
           path: ceprace/build/reports/tests/
 
   unit-test:
+    name: RunTest
     needs:
       - lint
     runs-on: ubuntu-latest
