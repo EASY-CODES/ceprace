@@ -5,7 +5,7 @@ import com.engedu.ceprace.data.remote.PostmonApiService
 import com.engedu.ceprace.data.remote.ViaCepApiService
 import com.engedu.ceprace.data.remote.WidnetApiService
 import com.engedu.ceprace.data.repository.AddressRepository
-import com.example.cepraceapp.data.repository.AddressRepositoryImpl
+import com.engedu.ceprace.data.repository.AddressRepositoryImpl
 import com.engedu.ceprace.domain.useCase.GetAddressUseCaseImpl
 import org.koin.dsl.module
 import retrofit2.Retrofit

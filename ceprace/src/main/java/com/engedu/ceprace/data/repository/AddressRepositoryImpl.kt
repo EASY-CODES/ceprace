@@ -1,10 +1,9 @@
-package com.example.cepraceapp.data.repository
+package com.engedu.ceprace.data.repository
 
 import com.engedu.ceprace.data.remote.OpenCepApiService
 import com.engedu.ceprace.data.remote.PostmonApiService
 import com.engedu.ceprace.data.remote.ViaCepApiService
 import com.engedu.ceprace.data.remote.WidnetApiService
-import com.engedu.ceprace.data.repository.AddressRepository
 import kotlinx.coroutines.coroutineScope
 
 internal class AddressRepositoryImpl(

@@ -37,7 +37,9 @@ android {
 
 dependencies {
 
-    testImplementation("junit:junit:4.13.2")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+
+    //debugImplementation("com.squareup.leakcanary:leakcanary-android:3.0-alpha-1")
 
     // Retrofit para chamadas de API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -47,8 +49,10 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
 
     // testes
-    androidTestImplementation("io.mockk:mockk-android:1.12.0")
-    androidTestImplementation("io.mockk:mockk-common:1.12.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.9")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+
 
     //injeção de dependencia
     implementation("io.insert-koin:koin-android:3.5.3")
