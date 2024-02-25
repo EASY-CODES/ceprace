@@ -23,13 +23,13 @@ jobs:
       - name: Run lint
         run: ./gradlew lint
 
-      - name: Upload test report app
+      - name: Upload lint report app
         uses: actions/upload-artifact@v2
         with:
           name: lint_report_app
           path: app/build/reports/tests/
 
-      - name: Upload test report module
+      - name: Upload lint report module
         uses: actions/upload-artifact@v2
         with:
           name: lint_report_module
@@ -42,6 +42,9 @@ jobs:
     steps:
       - name: Run tests
         run: ./gradlew test
+
+      - name: Grant execute permissions to gradlew
+        run: chmod +x gradlew
 
       - name: Upload test report app
         uses: actions/upload-artifact@v2
