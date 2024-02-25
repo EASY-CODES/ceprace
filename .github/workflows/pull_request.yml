@@ -31,13 +31,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: lint_report_app
-          path: app/build/reports/tests/
+          path: app/build/reports/
 
       - name: Upload lint report module
         uses: actions/upload-artifact@v2
         with:
           name: lint_report_module
-          path: ceprace/build/reports/tests/
+          path: ceprace/build/reports/
 
   unit-test:
     name: RunTest
@@ -45,6 +45,19 @@ jobs:
       - lint
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Grant execute permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: zulu
+          java-version: 17
+          cache: gradle
+          
       - name: Run tests
         run: ./gradlew test
 
