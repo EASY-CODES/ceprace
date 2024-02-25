@@ -1,0 +1,4 @@
+Changes in this Release
+
+-Add unit tests app and module
+-Refactor Init class ceprance module
