@@ -5,3 +5,6 @@
 -keep class org.junit.jupiter.** { *; }
 -keep class edu.umd.cs.findbugs.annotations.** { *; }
 -keep class java.lang.instrument.* { *; }
+-keep class com.engedu.ceprace.domain.model.AddressVO { *; }
+-keep class com.engedu.ceprace.domain.model.AddressVO.* { *; }
+-keep class com.engedu.ceprace.initializer.CepRaceInitImpl { *; }

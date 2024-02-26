@@ -1,7 +1,0 @@
--keep class net.bytebuddy.** { *; }
--keep class io.mockk.** { *; }
--keep class net.bytebuddy.agent.* { *; }
--keep class org.slf4j.** { *; }
--keep class org.junit.jupiter.** { *; }
--keep class edu.umd.cs.findbugs.annotations.** { *; }
--keep class java.lang.instrument.* { *; }
