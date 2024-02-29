@@ -6,6 +6,9 @@ import com.engedu.ceprace.domain.model.Response
 import com.engedu.ceprace.domain.model.toVo
 import com.example.cepraceapp.domain.useCase.GetAddressUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapMerge
@@ -14,44 +17,30 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 
-internal class GetAddressUseCaseImpl(private val repository: AddressRepository) : GetAddressUseCase {
+internal class GetAddressUseCaseImpl(private val repository: AddressRepository) :
+    GetAddressUseCase {
     override suspend fun execute(cep: String): AddressVO? {
         return ranceFlow(cep).first()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(FlowPreview::class)
     private suspend fun ranceFlow(cep: String) = flow {
+
         val viaCepFlow = flow {
-            try {
-                emit(Response(success = true, addressVO = repository.getAddressViaCep(cep).toVo()))
-            } catch (e: Exception) {
-                emit(Response(errorMsg = e.message.toString()))
-            }
-        }
+            emit(Response(success = true, addressVO = repository.getAddressViaCep(cep).toVo()))
+        }.catch { emit(Response(errorMsg = it.message)) }
 
         val openCepFlow = flow {
-            try {
-                emit(Response(success = true, addressVO = repository.getAddressOpenCep(cep).toVo()))
-            } catch (e: Exception) {
-                emit(Response(errorMsg = e.message.toString()))
-            }
-        }
+            emit(Response(success = true, addressVO = repository.getAddressOpenCep(cep).toVo()))
+        }.catch { emit(Response(errorMsg = it.message)) }
 
         val postmonFlow = flow {
-            try {
-                emit(Response(success = true, addressVO = repository.getAddressPostmon(cep).toVo()))
-            } catch (e: Exception) {
-                emit(Response(errorMsg = e.message.toString()))
-            }
-        }
+            emit(Response(success = true, addressVO = repository.getAddressPostmon(cep).toVo()))
+        }.catch { emit(Response(errorMsg = it.message)) }
 
         val widnetFlow = flow {
-            try {
-                emit(Response(success = true, addressVO = repository.getAddressWidnet(cep).toVo()))
-            } catch (e: Exception) {
-                emit(Response(errorMsg = e.message.toString()))
-            }
-        }
+            emit(Response(success = true, addressVO = repository.getAddressWidnet(cep).toVo()))
+        }.catch { emit(Response(errorMsg = it.message)) }
 
         /**
          * flatMapMerge é um operador do Kotlin Flow que permite combinar vários fluxos em um único fluxo,
@@ -62,7 +51,9 @@ internal class GetAddressUseCaseImpl(private val repository: AddressRepository) 
          * os elementos à medida que estão prontos, independentemente da ordem de chegada dos elementos originais.
          */
         val combinedFlow = flowOf(viaCepFlow, openCepFlow, postmonFlow, widnetFlow)
-            .flatMapMerge { it }.filter { it.success }.map { it.addressVO }
+            .flatMapMerge { it }
+            .filter { it.success }
+            .map { it.addressVO }
 
         combinedFlow.collect {
             emit(it)

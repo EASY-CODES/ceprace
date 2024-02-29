@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -32,9 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
-        freeCompilerArgs = listOf(
-            "-Xstring-concat=inline"
-        )
+//        freeCompilerArgs = listOf(
+//            "-Xstring-concat=inline"
+//        )
     }
 
     packaging {
@@ -73,7 +73,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.EASY-CODES"
             artifactId = "ceprace"
-            version = "1.0"
+            version = "1.0.15"
 
             afterEvaluate {
                 from(components["release"])
